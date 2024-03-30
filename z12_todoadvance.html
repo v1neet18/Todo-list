@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    body{
+      font-family: arial;
+    }
+    .due-date,
+    .input-box{
+      font-size: 15px;
+      padding: 5px 6px;
+    }
+
+    .main-container{
+      display: grid;
+      grid-template-columns: 200px 150px 100px;
+      column-gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .todo-list{
+      display: grid;
+      grid-template-columns: 200px 150px 100px;
+      column-gap: 10px;
+      row-gap: 10px;
+      align-items: center;
+    }
+
+
+    .add-button{
+      font-size: 15px;
+      padding: 7px 25px;
+      background-color: green;
+      color: white;
+      border: none;
+    }
+
+    .delete-button{
+      font-size: 15px;
+      padding: 7px 25px;
+      background-color: darkred;
+      color: white;
+      border: none;
+    }
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List</title>
+</head>
+<body>
+  <div class="main-container">
+    <input type="text" placeholder="Todo name" class="js-input input-box">
+    <input type="date" class="js-date due-date">
+    <button class="js-add-button add-button">Add</button>
+  </div>
+  
+  <div class="js-todo-list todo-list"></div>
+  <script>
+    const inputElement = document.querySelector(".js-input");
+    const addElement = document.querySelector(".js-add-button");
+    const dueDateElement = document.querySelector(".js-date");
+    let todoList = [];
+
+    addElement.addEventListener('click', () => {
+      const todoName = inputElement.value;
+      const dueDate = dueDateElement.value;
+      inputElement.value = '';
+      todoList.push({
+        todoName : todoName,
+        dueDate : dueDate
+      });
+      render();
+    })
+
+    /*
+    addElement.onclick = function(){
+      const todoName = inputElement.value;
+      const dueDate = dueDateElement.value;
+      inputElement.value = '';
+      todoList.push({
+        todoName : todoName,
+        dueDate : dueDate
+      });
+      render();
+    }
+    */
+   
+    function render(){
+      let todoItems = '';
+      todoList.forEach((todoObject,index) => {  //we will use arrow function instead of regular function in forEach
+        const html = `<div>
+          ${todoObject.todoName}
+          </div>
+          <div> 
+          ${todoObject.dueDate}
+          </div>
+          <button class = "delete-button js-delete-button">delete</button>
+          `
+        todoItems += html;
+      });
+      console.log(todoItems);
+      document.querySelector(".js-todo-list").innerHTML = todoItems;
+      const deleteElmnt = document.querySelectorAll('.js-delete-button');
+      deleteElmnt.forEach((deleteBtn,index) => {
+        deleteBtn.addEventListener('click' , () =>{
+          todoList.splice(index,1);
+          render();
+        });
+      });
+
+    }
+
+   
+  </script>
+</body>
+</html>
